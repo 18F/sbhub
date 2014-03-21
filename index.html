@@ -51,6 +51,7 @@
                     <li><a href="http://wbi-icc.com" class="smoothScroll">Home</a></li>
                     <li><a href="#solicit" class="smoothScroll">Solicitations</a></li>
                     <li><a href="#contact" class="smoothScroll"> Contact</a></li>
+                </ul>
             </div>
             <!--/.nav-collapse -->
         </div>
@@ -113,13 +114,13 @@
     </div>
     <div class="row">
         <div id="fbopen-widget-placeholder" class="fbopen-widget-wrapper">
-            <input type="hidden" id="fbopen-widget-data" value="q=air+force&amp;data_source=FBO&api_key=8l3xbEmsQMq7AG7mXoSy3IuJAqehmWGRC754Otx7">
-
-            <div id="fbopen-widget-output">
-                <script type="text/javascript" class="embed">
-                    var root_uri = (("localhost" == document.location.hostname) ? "localhost:4000" : "18f.github.io");
-                </script>
-            </div>
+            <input type="hidden" id="fbopen-widget-key" value="8l3xbEmsQMq7AG7mXoSy3IuJAqehmWGRC754Otx7">
+            <input type="hidden" id="fbopen-widget-query-base" value="%22air+force%22">
+            <input type="hidden" id="fbopen-widget-start" value="0">
+            <!--<input type="hidden" id="fbopen-widget-data" value="q=air+force&amp;data_source=FBO&api_key=8l3xbEmsQMq7AG7mXoSy3IuJAqehmWGRC754Otx7">-->
+            <script type="text/javascript" class="embed">
+                var root_uri = (("localhost" == document.location.hostname) ? "localhost:4000" : "18f.github.io");
+            </script>
             <div id="fbopen-widget-results"></div>
         </div>
     </div>
@@ -237,17 +238,25 @@
     fbopenWidget.helpers.api_uri = function() { return 'http://api.data.gov/gsa/fbopen/v0/opps'; }
     fbopenWidget.models = {};
 
+    fbopenWidget.helpers.buildQueryString = function(){
+        var parameters = [
+            "q="+ $('#fbopen-widget-query-base').val(),
+            "start="+ $('#fbopen-widget-start').val(),
+            "api_key="+ $('#fbopen-widget-key').val()
+        ];
+        return parameters.join('&');
+    }
 
     $(function () {
         var getFbopen = function () {
-            var serializedData = $('#fbopen-widget-data').val()
+            var serializedData = fbopenWidget.helpers.buildQueryString();
             var $results = $('#fbopen-widget-results');
             var request = $.ajax({
                 url: 'http://api.data.gov/gsa/fbopen/v0/opps',
                 type: "get",
                 data: serializedData
             });
-            request.done(function (response, textStatus, jqXHR) {
+            request.done(function (response) {
                 $('#fbopen-widget-placeholder').fadeIn();
                 var num = fbopenWidget.helpers.addCommas(response.numFound);
                 $results.append('<h3>' + num + ' Opportunities Found</h3>')
