@@ -106,16 +106,14 @@
     <div class="row">
         <h1 class="centered">Air Force Solicitations & Grants</h1>
 
-        <form class="form-search">
-            <input id="query" type="text" class="input-medium search-query" placeholder="Search solicitations...">
-            <button type="submit" class="btn">Search</button>
-        </form>
+            <input id="query" type="text" class="input-medium search-query" oninput="loadResults()" placeholder="Search solicitations...">
+            <button id="resultsbtn" class="btn" type="button" onclick="loadResults()">Search</button>
 
     </div>
     <div class="row">
         <div id="fbopen-widget-placeholder" class="fbopen-widget-wrapper">
             <input type="hidden" id="fbopen-widget-key" value="8l3xbEmsQMq7AG7mXoSy3IuJAqehmWGRC754Otx7">
-            <input type="hidden" id="fbopen-widget-query-base" value="%22air+force%22">
+            <input type="hidden" id="fbopen-widget-query-base" value="air force">
             <input type="hidden" id="fbopen-widget-start" value="0">
             <!--<input type="hidden" id="fbopen-widget-data" value="q=air+force&amp;data_source=FBO&api_key=8l3xbEmsQMq7AG7mXoSy3IuJAqehmWGRC754Otx7">-->
             <script type="text/javascript" class="embed">
@@ -222,7 +220,7 @@
         rtnstr = str.substring(0,255);
         if (str.length > 255)
             rtnstr += "..."
-        return rtnstr
+        return rtnstr;
     };
     fbopenWidget.helpers.addCommas = function(nStr) {
         nStr += '';
@@ -240,14 +238,15 @@
 
     fbopenWidget.helpers.buildQueryString = function(){
         var parameters = [
-            "q="+ $('#fbopen-widget-query-base').val(),
+            "q="+ encodeURIComponent($('#fbopen-widget-query-base').val()+" "+$('#query').val()),
             "start="+ $('#fbopen-widget-start').val(),
             "api_key="+ $('#fbopen-widget-key').val()
         ];
         return parameters.join('&');
     }
 
-    $(function () {
+
+    var loadResults = function () {
         var getFbopen = function () {
             var serializedData = fbopenWidget.helpers.buildQueryString();
             var $results = $('#fbopen-widget-results');
@@ -256,10 +255,11 @@
                 type: "get",
                 data: serializedData
             });
+
             request.done(function (response) {
                 $('#fbopen-widget-placeholder').fadeIn();
                 var num = fbopenWidget.helpers.addCommas(response.numFound);
-                $results.append('<h3>' + num + ' Opportunities Found</h3>')
+                $results.html('<h3>' + num + ' Opportunities Found</h3>')
                 for (var i = 0; i < response.docs.length; i++) {
                     var title = response.docs[i].title;
                     var uri = response.docs[i].listing_url;
@@ -276,11 +276,16 @@
                     $results.append(html)
                 }
             });
+
+
+
         }
 
         getFbopen();
+    }
 
-    });
+    $(document).ready(loadResults);
+
 </script>
 
 
