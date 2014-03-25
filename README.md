@@ -1,4 +1,4 @@
-sbhub
+AFRL SBHub
 =====
 
-A small business hub for the Dayton region.
+A website to encourage collaboration between the Air Force Research Laboratory and small business.
