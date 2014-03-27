@@ -338,6 +338,10 @@ a:after {
 	margin-bottom: 10px;
 }
 
+#greywrap a {
+    color: #555555;
+}
+
 #footerwrap {
 	background: #2b2b2b;
 	margin-top: 0px;
