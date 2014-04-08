@@ -105,12 +105,9 @@
     <div class="row">
         <h1 class="centered">Open Solicitations & Grants</h1>
         <hr>
-        <h2 class="centered">- Air Force -</h2>
 
-        <br>
         <div id="search_box" class="centered">
-            <label for="query">Search</label>
-            <input id="query" type="text" class="input-medium search-query" oninput="loadResults()" placeholder="Search Air Force...">
+            <input id="query" type="text" class="input-medium search-query" oninput="loadResults()" placeholder="Search...">
             (<a href="http://lucene.apache.org/core/2_9_4/queryparsersyntax.html">Lucene Syntax</a>)
         </div>
     </div>
@@ -314,7 +311,7 @@
 
     fbopenWidget.helpers.buildQueryString = function(){
         var parameters = [
-            "q="+ encodeURIComponent('"'+$('#fbopen-widget-query-base').val()+'" AND '+$('#query').val()),
+            "q="+ encodeURIComponent($('#query').val()),
             "start="+ $('#fbopen-widget-start').val(),
             "api_key="+ $('#fbopen-widget-key').val()
         ];
