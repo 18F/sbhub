@@ -293,12 +293,22 @@ a:after {
 
 #headerwrap h1 {
 	color:#ffffff;
-	margin-top: 90px;
+	margin-top: 95px;
 	padding-bottom: 30px;
 	letter-spacing: 8px;
 	font-size: 100px;
 	font-weight: bold;
 	text-shadow: 2px 2px 2px #000;
+}
+
+#headerwrap h2 {
+    color:#ffffff;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    letter-spacing: 8px;
+    font-size: 70px;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px #000;
 }
 
 #headerwrap p {
