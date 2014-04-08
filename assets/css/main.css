@@ -334,6 +334,10 @@ a:after {
 	margin-bottom: 20px;
 }
 
+#greywrap .callout a:hover {
+    color: #3498db;
+}
+
 #greywrap p {
 	margin-left: 30px;
 	margin-right: 30px;
