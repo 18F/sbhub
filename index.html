@@ -83,14 +83,14 @@
 
         <!-- col-lg-4 -->
        <div class="col-lg-4 callout">
-           <a href="#connect"><span class="icon icon-users"></span></a>
+           <a href="#connect" onclick="coming_soon();"><span class="icon icon-users"></span></a>
             <h2>Connect</h2>
             <p>Opportunities through teaming</p>
         </div>
         <!-- col-lg-4 -->
 
         <div class="col-lg-4 callout">
-           <a href="#apply"><span class="icon icon-checkbox-checked"></span></a>
+           <a href="#apply" onclick="coming_soon();"><span class="icon icon-checkbox-checked"></span></a>
             <h2>Apply</h2>
             <p>Get started now!</p>
         </div>
@@ -115,7 +115,13 @@
         </div>
     </div>
     <div class="row">
-        <div id="fbopen-widget-placeholder" class="fbopen-widget-wrapper">
+        <div id="fbopen-widget-advanced"  class="col-md-3">
+            <h3>Filters</h3>
+            <div class="container" id="filter-controls">
+                <p>Coming Soon!</p>
+            </div>
+        </div>
+        <div id="fbopen-widget-placeholder" class="fbopen-widget-wrapper col-md-9 ">
             <input type="hidden" id="fbopen-widget-key" value="8l3xbEmsQMq7AG7mXoSy3IuJAqehmWGRC754Otx7">
             <input type="hidden" id="fbopen-widget-query-base" value="air force">
             <input type="hidden" id="fbopen-widget-start" value="0">
@@ -244,13 +250,6 @@
                         <button type="submit" class="btn btn-success">Sign up</button>
                     </div>
                 </div>
-
-                <script>
-                    var coming_soon = function(){
-                        alert('Not Implemented\nComing Soon!');
-                    }
-                </script>
-
             </form>
             <!-- form -->
             </p>
@@ -287,6 +286,10 @@
 <script type="text/javascript" src="assets/js/smoothscroll.js"></script>
 <script type="text/javascript" src="assets/js/jquery-func.js"></script>
 <script type="text/javascript">
+    var coming_soon = function(){
+        alert('Coming Soon!');
+    }
+
     var fbopenWidget = {};
     fbopenWidget.helpers = {};
     fbopenWidget.helpers.preview = function(str) {
@@ -358,6 +361,8 @@
     }
 
     $(document).ready(loadResults);
+
+
 
 </script>
 
