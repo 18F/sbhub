@@ -76,7 +76,7 @@
 <div id="greywrap">
     <div class="row">
         <div class="col-lg-4 callout">
-            <a href="#find" ><span class="icon icon-search"></span></a>
+            <a href="#find" class="smoothScroll"><span class="icon icon-search"></span></a>
             <h2>Find</h2>
             <p>Federal contracts and grants, all in one place</p>
         </div>
@@ -102,23 +102,24 @@
 
 <!-- ==== Solicitations ==== -->
 <div class="container" id="find" name="solicit">
+    <h1 class="centered">Open Solicitations & Grants</h1>
+    <hr>
     <div class="row">
-        <h1 class="centered">Open Solicitations & Grants</h1>
-        <hr>
-
         <div id="search_box" class="centered">
             <input id="query" type="text" class="input-medium search-query" oninput="loadResults()" placeholder="Search...">
             (<a href="http://lucene.apache.org/core/2_9_4/queryparsersyntax.html">Lucene Syntax</a>)
         </div>
     </div>
-    <div class="row">
-        <div id="fbopen-widget-advanced"  class="col-md-3">
-            <h3>Filters</h3>
-            <div class="container" id="filter-controls">
-                <p>Coming Soon!</p>
-            </div>
+<!--     <div class="row">
+            <div id="fbopen-widget-advanced"  class="col-md-3">
+        <h3>Filters</h3>
+        <div class="container" id="filter-controls">
+            <p>Coming Soon!</p>
         </div>
-        <div id="fbopen-widget-placeholder" class="fbopen-widget-wrapper col-md-9 ">
+    </div> -->
+    </div>
+    <div class="container">
+        <div id="fbopen-widget-placeholder" class="fbopen-widget-wrapper">
             <input type="hidden" id="fbopen-widget-key" value="8l3xbEmsQMq7AG7mXoSy3IuJAqehmWGRC754Otx7">
             <input type="hidden" id="fbopen-widget-query-base" value="air force">
             <input type="hidden" id="fbopen-widget-start" value="0">
@@ -126,7 +127,7 @@
                 var root_uri = (("localhost" == document.location.hostname) ? "localhost:4000" : "18f.github.io");
             </script>
             <div id="fbopen-widget-results"></div>
-        </div>
+    </div>
     </div>
 </div>
 
@@ -278,10 +279,11 @@
 
 
 <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/js/retina.js"></script>
+<!-- <script type="text/javascript" src="assets/js/retina.js"></script> -->
 <script type="text/javascript" src="assets/js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="assets/js/smoothscroll.js"></script>
 <script type="text/javascript" src="assets/js/jquery-func.js"></script>
+<script type="text/javascript" src="assets/js/jquery.shorten.js"></script>
 <script type="text/javascript">
     var coming_soon = function(){
         alert('Coming Soon!');
@@ -289,12 +291,12 @@
 
     var fbopenWidget = {};
     fbopenWidget.helpers = {};
-    fbopenWidget.helpers.preview = function(str) {
-        rtnstr = str.substring(0,255);
-        if (str.length > 255)
-            rtnstr += "..."
-        return rtnstr;
-    };
+    // fbopenWidget.helpers.preview = function(str) {
+    //     rtnstr = str.substring(0,255);
+    //     if (str.length > 255)
+    //         rtnstr += "..."
+    //     return rtnstr;
+    // };
     fbopenWidget.helpers.addCommas = function(nStr) {
         nStr += '';
         x = nStr.split('.');
@@ -332,7 +334,7 @@
             request.done(function (response) {
                 $('#fbopen-widget-placeholder').fadeIn();
                 var num = fbopenWidget.helpers.addCommas(response.numFound);
-                $results.html('<h3>' + num + ' Opportunities Found</h3>')
+                $results.html('<h3 class="centered">' + num + ' Opportunities Found</h3>')
                 for (var i = 0; i < response.docs.length; i++) {
                     var title = response.docs[i].title;
                     var uri = response.docs[i].listing_url;
@@ -340,17 +342,20 @@
                     var description = "No description available."
                     var posted = response.docs[i].posted_dt;
                     if (response.docs[i].description)
-                        description = fbopenWidget.helpers.preview(response.docs[i].description);
+                        description = response.docs[i].description.trim();
                     var html = '<div class="fbopen-opp"><a href="' + uri + '" target="_blank"><h4>' + title + '</h4></a>'
                     html += '<h5>' + agency + '</h5>';
-                    html += '<p>' + description + '</p>';
+                    html += '<p class="fbopen-desc">' + description + '</p>';
                     html += '</div>';
 
                     $results.append(html)
                 }
+
+                $('p.fbopen-desc').shorten({
+                    showChars: '125',
+                });
             });
-
-
+            
 
         }
 

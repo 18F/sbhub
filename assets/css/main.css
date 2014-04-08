@@ -452,9 +452,11 @@ a:after {
 
 /* Solicitations */
 
-.fbopen-opp {
+#fbopen-widget-results div {
     border-color: #ffffff;
     border-radius: 2px;
+    border-style: dotted;
+    border-width: 2px;
 }
 
 /* ==========================================================================
