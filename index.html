@@ -334,7 +334,7 @@
             request.done(function (response) {
                 $('#fbopen-widget-placeholder').fadeIn();
                 var num = fbopenWidget.helpers.addCommas(response.numFound);
-                $results.html('<h3 class="centered">' + num + ' Opportunities Found</h3>')
+                $results.html('<small class="centered">Showing 1- 10 of ' + num + ' Opportunities Found</small>')
                 for (var i = 0; i < response.docs.length; i++) {
                     var title = response.docs[i].title;
                     var uri = response.docs[i].listing_url;
@@ -345,13 +345,13 @@
                         description = response.docs[i].description.trim();
                     var html = '<div class="fbopen-opp"><a href="' + uri + '" target="_blank"><h4>' + title + '</h4></a>'
                     html += '<h5>' + agency + '</h5>';
-                    html += '<p class="fbopen-desc">' + description + '</p>';
+                    html += '<div class="fbopen-desc"><p>' + description + '</p></div>';
                     html += '</div>';
 
                     $results.append(html)
                 }
 
-                $('p.fbopen-desc').shorten({
+                $('div.fbopen-desc').shorten({
                     showChars: '125',
                 });
             });
