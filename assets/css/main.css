@@ -532,3 +532,30 @@ a:after {
 	}
 }
 
+div.beta {
+    z-index: 10;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+div.beta h2 {
+    font-size: 1.5em;
+    color: red;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+div.beta-small {
+    z-index: 10;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+div.beta-small h2 {
+    font-size: 1.5em;
+    color: red;
+    margin-left: 20px;
+    margin-top: 10px;
+}
