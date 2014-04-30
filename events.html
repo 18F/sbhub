@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Small Business Events</title>
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="http://api.simile-widgets.org/timeline/2.3.1/timeline-api.js?bundle=true" type="text/javascript"></script>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+</head>
+<body>
+	<h2> Here's the calendar events using an API </h2>
+
+	<div id="events"></div>
+
+	<h2> Here's the calendar using an embedded iframe </h2>
+
+	<iframe src="https://www.google.com/calendar/embed?showTabs=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=m9e7oq060hi6n56boagj6p33ok%40group.calendar.google.com&amp;color=%23B1440E&amp;ctz=America%2FNew_York" style=" border-width:0 " width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+	<h2> Here's a visualization using the Simile Timeline Widget </h2>
+	<div id="my-timeline" style="height: 150px; border: 1px solid #aaa"></div>
+
+
+
+<script 
+<script>
+that = null;
+$.getJSON("http://www.google.com/calendar/feeds/m9e7oq060hi6n56boagj6p33ok%40group.calendar.google.com/public/full?orderby=starttime&max-results=15&singleevents=true&sortorder=ascending&futureevents=true&alt=json", function(data){
+	that = data;
+
+	var events= $("#events");
+
+	var event_html = '<ul id="events-list">';
+
+	for(i=0; i<data.feed.entry.length; i++){
+		var entry = data.feed.entry[i];
+		event_html+=('<li><a href="'+entry.link[0].href+'">'+entry.title['$t']+'</a> ('
+			+entry['gd$when'][0].startTime+' - '+entry['gd$when'][0].endTime
+			+')'+entry['gd$where'][0]['valueString']+'</li>');
+	};
+
+	event_html +="</ul>";
+	that.event_html = event_html;
+	events.append(event_html);
+});
+
+ var tl;
+ function onLoad() {
+   var bandInfos = [
+     Timeline.createBandInfo({
+         width:          "70%", 
+         intervalUnit:   Timeline.DateTime.MONTH, 
+         intervalPixels: 100
+     }),
+     Timeline.createBandInfo({
+         width:          "30%", 
+         intervalUnit:   Timeline.DateTime.YEAR, 
+         intervalPixels: 200
+     })
+   ];
+   tl = Timeline.create(document.getElementById("my-timeline"), bandInfos);
+ }
+
+ var resizeTimerID = null;
+ function onResize() {
+     if (resizeTimerID == null) {
+         resizeTimerID = window.setTimeout(function() {
+             resizeTimerID = null;
+             tl.layout();
+         }, 500);
+     }
+ }
+
+
+</script>
+</body>
+</html>
