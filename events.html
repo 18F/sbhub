@@ -3,7 +3,6 @@
 <head>
 	<title>Small Business Events</title>
 	<script src="assets/js/jquery.min.js"></script>
-	<script src="http://api.simile-widgets.org/timeline/2.3.1/timeline-api.js?bundle=true" type="text/javascript"></script>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 </head>
 <body>
@@ -14,8 +13,8 @@
 	<h2> Here's the calendar events using an API </h2>
 	<div id="events"></div>
 
-<script>
-<!--
+	<script>
+	<!--
 /**
  * Converts an xs:date or xs:dateTime formatted string into the local timezone
  * and outputs a human-readable form of this date or date/time.
@@ -23,17 +22,17 @@
  * @param {string} gCalTime is the xs:date or xs:dateTime formatted string
  * @return {string} is the human-readable date or date/time string
  */
-function formatGCalTime(gCalTime) { 
+ function formatGCalTime(gCalTime) { 
   // text for regex matches
   var remtxt = gCalTime;
 
   function consume(retxt) {
-    var match = remtxt.match(new RegExp('^' + retxt));
-    if (match) {
-      remtxt = remtxt.substring(match[0].length);
-      return match[0];
-    }
-    return '';
+  	var match = remtxt.match(new RegExp('^' + retxt));
+  	if (match) {
+  		remtxt = remtxt.substring(match[0].length);
+  		return match[0];
+  	}
+  	return '';
   }
 
   // minutes of correction between gCalTime and GMT
@@ -48,23 +47,23 @@ function formatGCalTime(gCalTime) {
 
   // if a DATE-TIME was matched in the regex 
   if (timeOrNot == 'T') {
-    var hours = consume('\\d{2}');
-    consume(':?');
-    var mins = consume('\\d{2}');
-    consume('(:\\d{2})?(\\.\\d{3})?');
-    var zuluOrNot = consume('Z');
+  	var hours = consume('\\d{2}');
+  	consume(':?');
+  	var mins = consume('\\d{2}');
+  	consume('(:\\d{2})?(\\.\\d{3})?');
+  	var zuluOrNot = consume('Z');
 
     // if time from server is not already in GMT, calculate offset
     if (zuluOrNot != 'Z') {
-      var corrPlusMinus = consume('[\\+\\-]');
-      if (corrPlusMinus != '') {
-        var corrHours = consume('\\d{2}');
-        consume(':?');
-        var corrMins = consume('\\d{2}');
-        totalCorrMins = (corrPlusMinus=='-' ? 1 : -1) * 
-            (Number(corrHours) * 60 + 
-	    (corrMins=='' ? 0 : Number(corrMins)));
-      }
+    	var corrPlusMinus = consume('[\\+\\-]');
+    	if (corrPlusMinus != '') {
+    		var corrHours = consume('\\d{2}');
+    		consume(':?');
+    		var corrMins = consume('\\d{2}');
+    		totalCorrMins = (corrPlusMinus=='-' ? 1 : -1) * 
+    		(Number(corrHours) * 60 + 
+    			(corrMins=='' ? 0 : Number(corrMins)));
+    	}
     } 
 
     // get time since epoch and apply correction, if necessary
@@ -78,15 +77,15 @@ function formatGCalTime(gCalTime) {
     // time is originally in a 24-hour format
     // this converts it to MM/DD hh:mm (AM|PM) 
     dateString = (ld.getMonth() + 1) + '/' + ld.getDate() + ' ' + 
-        ((ld.getHours()>12)?(ld.getHours()-12):(ld.getHours()===0?12:
-	ld.getHours())) + ':' + ((ld.getMinutes()<10)?('0' + 
-	ld.getMinutes()):(ld.getMinutes())) + ' ' + 
-	((ld.getHours()>=12)?'PM':'AM');
-  } else {
+    ((ld.getHours()>12)?(ld.getHours()-12):(ld.getHours()===0?12:
+    	ld.getHours())) + ':' + ((ld.getMinutes()<10)?('0' + 
+    	ld.getMinutes()):(ld.getMinutes())) + ' ' + 
+    	((ld.getHours()>=12)?'PM':'AM');
+    } else {
     // if only a DATE was matched
     dateString =  parseInt(month, 10) + '/' + parseInt(dateMonth, 10);
-  }
-  return dateString;
+}
+return dateString;
 }
 
 
@@ -123,8 +122,5 @@ $.getJSON("http://www.google.com/calendar/feeds/m9e7oq060hi6n56boagj6p33ok%40gro
 });
 
 </script>
-
-
-
 </body>
 </html>
