@@ -7,69 +7,124 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 </head>
 <body>
-	<h2> Here's the calendar events using an API </h2>
+	<h2> Here's an embedded google calendar </h2>
 
+	<iframe src="https://www.google.com/calendar/embed?&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=m9e7oq060hi6n56boagj6p33ok%40group.calendar.google.com&amp;color=%23B1440E&amp;ctz=America%2FNew_York" style=" border-width:0 " width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+	<h2> Here's the calendar events using an API </h2>
 	<div id="events"></div>
 
-	<h2> Here's the calendar using an embedded iframe </h2>
-
-	<iframe src="https://www.google.com/calendar/embed?showTabs=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=m9e7oq060hi6n56boagj6p33ok%40group.calendar.google.com&amp;color=%23B1440E&amp;ctz=America%2FNew_York" style=" border-width:0 " width="800" height="600" frameborder="0" scrolling="no"></iframe>
-
-	<h2> Here's a visualization using the Simile Timeline Widget </h2>
-	<div id="my-timeline" style="height: 150px; border: 1px solid #aaa"></div>
-
-
-
-<script 
 <script>
-that = null;
+<!--
+/**
+ * Converts an xs:date or xs:dateTime formatted string into the local timezone
+ * and outputs a human-readable form of this date or date/time.
+ *
+ * @param {string} gCalTime is the xs:date or xs:dateTime formatted string
+ * @return {string} is the human-readable date or date/time string
+ */
+function formatGCalTime(gCalTime) { 
+  // text for regex matches
+  var remtxt = gCalTime;
+
+  function consume(retxt) {
+    var match = remtxt.match(new RegExp('^' + retxt));
+    if (match) {
+      remtxt = remtxt.substring(match[0].length);
+      return match[0];
+    }
+    return '';
+  }
+
+  // minutes of correction between gCalTime and GMT
+  var totalCorrMins = 0;
+
+  var year = consume('\\d{4}');
+  consume('-?');
+  var month = consume('\\d{2}');
+  consume('-?');
+  var dateMonth = consume('\\d{2}');
+  var timeOrNot = consume('T');
+
+  // if a DATE-TIME was matched in the regex 
+  if (timeOrNot == 'T') {
+    var hours = consume('\\d{2}');
+    consume(':?');
+    var mins = consume('\\d{2}');
+    consume('(:\\d{2})?(\\.\\d{3})?');
+    var zuluOrNot = consume('Z');
+
+    // if time from server is not already in GMT, calculate offset
+    if (zuluOrNot != 'Z') {
+      var corrPlusMinus = consume('[\\+\\-]');
+      if (corrPlusMinus != '') {
+        var corrHours = consume('\\d{2}');
+        consume(':?');
+        var corrMins = consume('\\d{2}');
+        totalCorrMins = (corrPlusMinus=='-' ? 1 : -1) * 
+            (Number(corrHours) * 60 + 
+	    (corrMins=='' ? 0 : Number(corrMins)));
+      }
+    } 
+
+    // get time since epoch and apply correction, if necessary
+    // relies upon Date object to convert the GMT time to the local
+    // timezone
+    var originalDateEpoch = Date.UTC(year, month - 1, dateMonth, hours, mins);
+    var gmtDateEpoch = originalDateEpoch + totalCorrMins * 1000 * 60;
+    var ld = new Date(gmtDateEpoch);
+
+    // date is originally in YYYY-MM-DD format
+    // time is originally in a 24-hour format
+    // this converts it to MM/DD hh:mm (AM|PM) 
+    dateString = (ld.getMonth() + 1) + '/' + ld.getDate() + ' ' + 
+        ((ld.getHours()>12)?(ld.getHours()-12):(ld.getHours()===0?12:
+	ld.getHours())) + ':' + ((ld.getMinutes()<10)?('0' + 
+	ld.getMinutes()):(ld.getMinutes())) + ' ' + 
+	((ld.getHours()>=12)?'PM':'AM');
+  } else {
+    // if only a DATE was matched
+    dateString =  parseInt(month, 10) + '/' + parseInt(dateMonth, 10);
+  }
+  return dateString;
+}
+
+
 $.getJSON("http://www.google.com/calendar/feeds/m9e7oq060hi6n56boagj6p33ok%40group.calendar.google.com/public/full?orderby=starttime&max-results=15&singleevents=true&sortorder=ascending&futureevents=true&alt=json", function(data){
-	that = data;
 
-	var events= $("#events");
+	$("#events").append('<ul id="event-list"></ul>');
+	var events = [];
 
-	var event_html = '<ul id="events-list">';
+	var event_html = "";
 
 	for(i=0; i<data.feed.entry.length; i++){
 		var entry = data.feed.entry[i];
-		event_html+=('<li><a href="'+entry.link[0].href+'">'+entry.title['$t']+'</a> ('
-			+entry['gd$when'][0].startTime+' - '+entry['gd$when'][0].endTime
-			+')'+entry['gd$where'][0]['valueString']+'</li>');
+		var title = entry.title.$t;
+		var start = formatGCalTime(entry.gd$when[0].startTime);
+		var end = formatGCalTime(entry.gd$when[0].endTime);
+		var eventHrefLink= entry.link[0].href;
+		var where = entry['gd$where'][0]['valueString'];
+
+		event_html+=('<li><a href="'+eventHrefLink+'">'+title+'</a> ('
+			+start+' - '+end
+			+')'+where+'</li>');
+		myevent = {
+			start: new Date(start),
+			end: new Date(end),
+			durationEvent:true,
+			title: title,
+			description: where
+		};
+
+		events.push(myevent);
 	};
 
-	event_html +="</ul>";
-	that.event_html = event_html;
-	events.append(event_html);
+	$("#event-list").append(event_html);
 });
 
- var tl;
- function onLoad() {
-   var bandInfos = [
-     Timeline.createBandInfo({
-         width:          "70%", 
-         intervalUnit:   Timeline.DateTime.MONTH, 
-         intervalPixels: 100
-     }),
-     Timeline.createBandInfo({
-         width:          "30%", 
-         intervalUnit:   Timeline.DateTime.YEAR, 
-         intervalPixels: 200
-     })
-   ];
-   tl = Timeline.create(document.getElementById("my-timeline"), bandInfos);
- }
-
- var resizeTimerID = null;
- function onResize() {
-     if (resizeTimerID == null) {
-         resizeTimerID = window.setTimeout(function() {
-             resizeTimerID = null;
-             tl.layout();
-         }, 500);
-     }
- }
-
-
 </script>
+
+
+
 </body>
 </html>
