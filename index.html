@@ -79,16 +79,16 @@
     <hr>
     <div class="col-md-2" >
         <form id="opps-form" novalidate >
-            <input name="q" type="text" class="input-medium search-query" ng-model="opps.filter.q" placeholder="Search...">
-            (<a href="http://lucene.apache.org/core/2_9_4/queryparsersyntax.html">Lucene Syntax</a>)
-        </form>
-    </div>
-    <div id="opps-found" class="col-md-10">
-        <ul>
-        <li ng-repeat="opp in opps.results.docs"><a href={{opp.listing_url}} target="_blank">{{ opp.title }}</a></li>
-        </ul>
-    </div>
-    </div>
+         <label for="q">Search:</label> <input name="q" type="text" class="input-medium search-query" ng-model="filter.q" placeholder="e.g. software">
+         <button ng-click="getOpps(filter)">Search</button>
+     </form>
+ </div>
+ <div id="opps-found" class="col-md-10">
+    <ul>
+        <li ng-repeat="opp in opps.docs"><a href={{opp.listing_url}} target="_blank">{{ opp.title }}</a></li>
+    </ul>
+</div>
+</div>
 </div>
 
 <!-- ==== SECTION DIVIDER6 ==== -->
@@ -181,6 +181,8 @@
 
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-resource.js"></script>
+<script type="text/javascript" src="assets/js/sbhub.js"></script>
 <script type="text/javascript" src="assets/js/sbhub.js"></script>
 <script type="text/javascript" src="assets/js/modernizr.custom.js"></script>
 <!-- <script type="text/javascript" src="assets/js/retina.js"></script> -->
