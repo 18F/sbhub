@@ -74,32 +74,19 @@
 <!-- /headerwrap -->
 
 <!-- ==== Solicitations ==== -->
-<div class="container" id="find" name="solicit" >
-    <h1 class="centered">Open Solicitations & Grants</h1>
+<div class="container" id="find" name="find" ng-controller="oppsCtrl">
+    <h1 class="centered">Find Opportunities</h1>
     <hr>
-    <div class="row" ng-repeat="opp in opps">
-        <div id="search_box" class="centered">
-            <input id="query" type="text" class="input-medium search-query" oninput="loadResults()" placeholder="Search...">
+    <div class="col-md-2" >
+        <form id="opps-form" novalidate >
+            <input name="q" type="text" class="input-medium search-query" ng-model="opps.filter.q" placeholder="Search...">
             (<a href="http://lucene.apache.org/core/2_9_4/queryparsersyntax.html">Lucene Syntax</a>)
-        </div>
+        </form>
     </div>
-<!--     <div class="row">
-            <div id="fbopen-widget-advanced"  class="col-md-3">
-        <h3>Filters</h3>
-        <div class="container" id="filter-controls">
-            <p>Coming Soon!</p>
-        </div>
-    </div> -->
-    </div>
-    <div class="container">
-        <div id="fbopen-widget-placeholder" class="fbopen-widget-wrapper">
-            <input type="hidden" id="fbopen-widget-key" value="8l3xbEmsQMq7AG7mXoSy3IuJAqehmWGRC754Otx7">
-            <input type="hidden" id="fbopen-widget-query-base" value="air force">
-            <input type="hidden" id="fbopen-widget-start" value="0">
-            <script type="text/javascript" class="embed">
-                var root_uri = (("localhost" == document.location.hostname) ? "localhost:4000" : "18f.github.io");
-            </script>
-            <div id="fbopen-widget-results"></div>
+    <div id="opps-found" class="col-md-10">
+        <ul>
+        <li ng-repeat="opp in opps.results.docs"><a href={{opp.listing_url}} target="_blank">{{ opp.title }}</a></li>
+        </ul>
     </div>
     </div>
 </div>
@@ -193,90 +180,89 @@
 <!-- Placed at the end of the document so the pages load faster -->
 
 
-<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>i
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
-<script type="text/javascript" src="assets/js/controller.js"></script>
+<script type="text/javascript" src="assets/js/sbhub.js"></script>
 <script type="text/javascript" src="assets/js/modernizr.custom.js"></script>
 <!-- <script type="text/javascript" src="assets/js/retina.js"></script> -->
 <script type="text/javascript">
-    var coming_soon = function(){
-        alert('Coming Soon!');
-    }
+    // var coming_soon = function(){
+    //     alert('Coming Soon!');
+    // }
 
-    var fbopenWidget = {};
-    fbopenWidget.helpers = {};
-    // fbopenWidget.helpers.preview = function(str) {
-    //     rtnstr = str.substring(0,255);
-    //     if (str.length > 255)
-    //         rtnstr += "..."
-    //     return rtnstr;
-    // };
-    fbopenWidget.helpers.addCommas = function(nStr) {
-        nStr += '';
-        x = nStr.split('.');
-        x1 = x[0];
-        x2 = x.length > 1 ? '.' + x[1] : '';
-        var rgx = /(\d+)(\d{3})/;
-        while (rgx.test(x1)) {
-            x1 = x1.replace(rgx, '$1' + ',' + '$2');
-        }
-        return x1 + x2;
-    }
-    fbopenWidget.helpers.api_uri = function() { return 'http://api.data.gov/gsa/fbopen/v0/opps'; }
-    fbopenWidget.models = {};
+    // var fbopenWidget = {};
+    // fbopenWidget.helpers = {};
+    // // fbopenWidget.helpers.preview = function(str) {
+    // //     rtnstr = str.substring(0,255);
+    // //     if (str.length > 255)
+    // //         rtnstr += "..."
+    // //     return rtnstr;
+    // // };
+    // fbopenWidget.helpers.addCommas = function(nStr) {
+    //     nStr += '';
+    //     x = nStr.split('.');
+    //     x1 = x[0];
+    //     x2 = x.length > 1 ? '.' + x[1] : '';
+    //     var rgx = /(\d+)(\d{3})/;
+    //     while (rgx.test(x1)) {
+    //         x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    //     }
+    //     return x1 + x2;
+    // }
+    // fbopenWidget.helpers.api_uri = function() { return 'http://api.data.gov/gsa/fbopen/v0/opps'; }
+    // fbopenWidget.models = {};
 
-    fbopenWidget.helpers.buildQueryString = function(){
-        var parameters = [
-            "q="+ encodeURIComponent($('#query').val()),
-            "start="+ $('#fbopen-widget-start').val(),
-            "api_key="+ $('#fbopen-widget-key').val()
-        ];
-        return parameters.join('&');
-    }
+    // fbopenWidget.helpers.buildQueryString = function(){
+    //     var parameters = [
+    //         "q="+ encodeURIComponent($('#query').val()),
+    //         "start="+ $('#fbopen-widget-start').val(),
+    //         "api_key="+ $('#fbopen-widget-key').val()
+    //     ];
+    //     return parameters.join('&');
+    // }
 
 
-    var loadResults = function () {
-        var getFbopen = function () {
-            var serializedData = fbopenWidget.helpers.buildQueryString();
-            var $results = $('#fbopen-widget-results');
-            var request = $.ajax({
-                url: 'http://api.data.gov/gsa/fbopen/v0/opps',
-                type: "get",
-                data: serializedData
-            });
+    // var loadResults = function () {
+    //     var getFbopen = function () {
+    //         var serializedData = fbopenWidget.helpers.buildQueryString();
+    //         var $results = $('#fbopen-widget-results');
+    //         var request = $.ajax({
+    //             url: 'http://api.data.gov/gsa/fbopen/v0/opps',
+    //             type: "get",
+    //             data: serializedData
+    //         });
 
-            request.done(function (response) {
-                $('#fbopen-widget-placeholder').fadeIn();
-                var num = fbopenWidget.helpers.addCommas(response.numFound);
-                $results.html('<small class="centered">Showing 1- 10 of ' + num + ' Opportunities Found</small>')
-                for (var i = 0; i < response.docs.length; i++) {
-                    var title = response.docs[i].title;
-                    var uri = response.docs[i].listing_url;
-                    var agency = response.docs[i].agency;
-                    var description = "No description available."
-                    var posted = response.docs[i].posted_dt;
-                    if (response.docs[i].description)
-                        description = response.docs[i].description.trim();
-                    var html = '<div class="fbopen-opp"><a href="' + uri + '" target="_blank"><h4>' + title + '</h4></a>'
-                    html += '<h5>' + agency + '</h5>';
-                    html += '<div class="fbopen-desc"><p>' + description + '</p></div>';
-                    html += '</div>';
+    //         request.done(function (response) {
+    //             $('#fbopen-widget-placeholder').fadeIn();
+    //             var num = fbopenWidget.helpers.addCommas(response.numFound);
+    //             $results.html('<small class="centered">Showing 1- 10 of ' + num + ' Opportunities Found</small>')
+    //             for (var i = 0; i < response.docs.length; i++) {
+    //                 var title = response.docs[i].title;
+    //                 var uri = response.docs[i].listing_url;
+    //                 var agency = response.docs[i].agency;
+    //                 var description = "No description available."
+    //                 var posted = response.docs[i].posted_dt;
+    //                 if (response.docs[i].description)
+    //                     description = response.docs[i].description.trim();
+    //                 var html = '<div class="fbopen-opp"><a href="' + uri + '" target="_blank"><h4>' + title + '</h4></a>'
+    //                 html += '<h5>' + agency + '</h5>';
+    //                 html += '<div class="fbopen-desc"><p>' + description + '</p></div>';
+    //                 html += '</div>';
 
-                    $results.append(html)
-                }
+    //                 $results.append(html)
+    //             }
 
-                $('div.fbopen-desc').shorten({
-                    showChars: '125',
-                });
-            });
+    //             $('div.fbopen-desc').shorten({
+    //                 showChars: '125',
+    //             });
+    //         });
             
 
-        }
+    //     }
 
-        getFbopen();
-    }
+    //     getFbopen();
+    // }
 
-    $(document).ready(loadResults);
+    // $(document).ready(loadResults);
 
 
 
