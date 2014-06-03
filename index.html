@@ -79,12 +79,12 @@
     <hr>
     <div class="col-md-3" >
         <form id="opps-form" novalidate >
-           <label for="q">Search:</label> <input name="q" type="text" class="input-medium search-query" ng-model="filter.q" placeholder="e.g. software">
+         <label for="q">Search:</label> <input name="q" type="text" class="input-medium search-query" ng-model="filter.q" placeholder="e.g. software">
 
-           <a id="form-advanced-label" data-toggle="collapse" data-target="#form-advanced-options">
+         <a id="form-advanced-label" data-toggle="collapse" data-target="#form-advanced-options">
             <span>ADVANCED</span>
             <button id="advanced-toggle" type="button" >+</button>
-           </a>
+        </a>
 
         <div id="form-advanced-options" class="collapse">
 
@@ -112,15 +112,28 @@
 
 </div>
 <p>
-         <button ng-click="getOpps(filter)">Search</button>
-     </p>
-     </form>
- </div>
+   <button ng-click="getOpps(filter)">Search</button>
+</p>
+</form>
+</div>
 
  <div id="opps-found" class="col-md-9">
-     <div class="row">{{ opps.numFound }} results found.</div>
 
-        <ul class="pagination pagination-sm">
+  <div class="panel panel-info" ng-repeat="opp in opps.docs">
+
+    <div class="panel-heading">
+            <a href={{opp.listing_url}} target="_blank" class="text-danger">
+               <b>{{ opp.title }}</b>
+            </a>
+    </div>
+    <div class="panel-body" shorten>
+
+            {{ opp.description }}
+
+    </div>
+</div>   
+<div id="pagination-box" class="col-md-offset-4">
+    <ul class="pagination">
       <li><a href="#">&laquo;</a></li>
       <li><a href="#">1</a></li>
       <li><a href="#">2</a></li>
@@ -128,30 +141,10 @@
       <li><a href="#">4</a></li>
       <li><a href="#">5</a></li>
       <li><a href="#">&raquo;</a></li>
-    </ul>
-            <div class="panel panel-primary" ng-repeat="opp in opps.docs">
-                
-                <div class="panel-heading">
-                    {{ opp.title }}
-                </div>
-                <div class="panel-body">
-                    <a href={{opp.listing_url}} target="_blank"> 
-                        {{ opp.description }}
-                    </a>
-                </div>
-            </div>
-        <ul class="pagination pagination-sm">
-      <li><a href="#">&laquo;</a></li>
-      <li><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li><a href="#">&raquo;</a></li>
-    </ul>
-</div>
-</div>
-</div>
+  </ul>
+</div id="pagination-box">
+</div id="opps-found">
+</div id="find">
 
 <!-- ==== SECTION DIVIDER6 ==== -->
 <section id="events" class="section-divider textdivider divider6">
@@ -242,93 +235,9 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-resource.js"></script>
 <script type="text/javascript" src="assets/js/sbhub.js"></script>
 <script type="text/javascript" src="assets/js/modernizr.custom.js"></script>
-<!-- Latest compiled and minified JavaScript -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<!-- <script type="text/javascript" src="assets/js/retina.js"></script> -->
-<script type="text/javascript">
-    // var coming_soon = function(){
-    //     alert('Coming Soon!');
-    // }
-
-    // var fbopenWidget = {};
-    // fbopenWidget.helpers = {};
-    // // fbopenWidget.helpers.preview = function(str) {
-    // //     rtnstr = str.substring(0,255);
-    // //     if (str.length > 255)
-    // //         rtnstr += "..."
-    // //     return rtnstr;
-    // // };
-    // fbopenWidget.helpers.addCommas = function(nStr) {
-    //     nStr += '';
-    //     x = nStr.split('.');
-    //     x1 = x[0];
-    //     x2 = x.length > 1 ? '.' + x[1] : '';
-    //     var rgx = /(\d+)(\d{3})/;
-    //     while (rgx.test(x1)) {
-    //         x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    //     }
-    //     return x1 + x2;
-    // }
-    // fbopenWidget.helpers.api_uri = function() { return 'http://api.data.gov/gsa/fbopen/v0/opps'; }
-    // fbopenWidget.models = {};
-
-    // fbopenWidget.helpers.buildQueryString = function(){
-    //     var parameters = [
-    //         "q="+ encodeURIComponent($('#query').val()),
-    //         "start="+ $('#fbopen-widget-start').val(),
-    //         "api_key="+ $('#fbopen-widget-key').val()
-    //     ];
-    //     return parameters.join('&');
-    // }
-
-
-    // var loadResults = function () {
-    //     var getFbopen = function () {
-    //         var serializedData = fbopenWidget.helpers.buildQueryString();
-    //         var $results = $('#fbopen-widget-results');
-    //         var request = $.ajax({
-    //             url: 'http://api.data.gov/gsa/fbopen/v0/opps',
-    //             type: "get",
-    //             data: serializedData
-    //         });
-
-    //         request.done(function (response) {
-    //             $('#fbopen-widget-placeholder').fadeIn();
-    //             var num = fbopenWidget.helpers.addCommas(response.numFound);
-    //             $results.html('<small class="centered">Showing 1- 10 of ' + num + ' Opportunities Found</small>')
-    //             for (var i = 0; i < response.docs.length; i++) {
-    //                 var title = response.docs[i].title;
-    //                 var uri = response.docs[i].listing_url;
-    //                 var agency = response.docs[i].agency;
-    //                 var description = "No description available."
-    //                 var posted = response.docs[i].posted_dt;
-    //                 if (response.docs[i].description)
-    //                     description = response.docs[i].description.trim();
-    //                 var html = '<div class="fbopen-opp"><a href="' + uri + '" target="_blank"><h4>' + title + '</h4></a>'
-    //                 html += '<h5>' + agency + '</h5>';
-    //                 html += '<div class="fbopen-desc"><p>' + description + '</p></div>';
-    //                 html += '</div>';
-
-    //                 $results.append(html)
-    //             }
-
-    //             $('div.fbopen-desc').shorten({
-    //                 showChars: '125',
-    //             });
-    //         });
-            
-
-    //     }
-
-    //     getFbopen();
-    // }
-
-    // $(document).ready(loadResults);
-
-
-
-</script>
+<script src="assets/js/jquery.shorten.js"
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
