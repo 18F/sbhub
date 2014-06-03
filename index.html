@@ -77,13 +77,46 @@
 <div class="container" id="find" name="find" ng-controller="oppsCtrl">
     <h1 class="centered">Find Opportunities</h1>
     <hr>
-    <div class="col-md-2" >
+    <div class="col-md-3" >
         <form id="opps-form" novalidate >
-         <label for="q">Search:</label> <input name="q" type="text" class="input-medium search-query" ng-model="filter.q" placeholder="e.g. software">
+           <label for="q">Search:</label> <input name="q" type="text" class="input-medium search-query" ng-model="filter.q" placeholder="e.g. software">
+
+           <a id="form-advanced-label" data-toggle="collapse" data-target="#form-advanced-options">
+            <span>ADVANCED</span>
+            <button id="advanced-toggle" type="button" class="btn">+</button>
+           </a>
+
+        <div id="form-advanced-options" class="collapse">
+
+            <div class="checkbox">
+              <label class="filter-text">
+                <input id="show_closed" name="show_closed" type="checkbox" /> Show closed listings
+            </label>
+        </div>
+
+        <div id="opps-form-src" class="checkbox form-group-more">
+          <label class="filter-text">
+            <input id="show_noncompeted" name="show_noncompeted" type="checkbox" /> Show non-competed listings (sole source)
+        </label>
+    </div>
+
+    <div id="opps-form-src">
+      <label for="data_source" class="filter-text">Data Source:</label>
+      <select id="data_source" name="data_source" type="search" class="form-control">
+        <option value="">All</option>
+        <option value="FBO">FedBizOpps (fbo.gov)</option>
+        <option value="grants.gov">grants.gov</option>
+    </select>
+
+</div>
+
+</div>
+<p>
          <button ng-click="getOpps(filter)">Search</button>
+     </p>
      </form>
  </div>
- <div id="opps-found" class="col-md-10">
+ <div id="opps-found" class="col-md-9">
     <ul>
         <li ng-repeat="opp in opps.docs"><a href={{opp.listing_url}} target="_blank">{{ opp.title }}</a></li>
     </ul>
@@ -183,8 +216,10 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-resource.js"></script>
 <script type="text/javascript" src="assets/js/sbhub.js"></script>
-<script type="text/javascript" src="assets/js/sbhub.js"></script>
 <script type="text/javascript" src="assets/js/modernizr.custom.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <!-- <script type="text/javascript" src="assets/js/retina.js"></script> -->
 <script type="text/javascript">
     // var coming_soon = function(){
