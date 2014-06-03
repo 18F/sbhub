@@ -19,14 +19,14 @@ sbhub.controller('oppsCtrl', function ($scope, $http, $resource) {
 
 });
 
-sbhub.directive('shorten', ['$timeout', function ($timeout) {
-    return {
-        link: function ($scope, element, attrs) {
-            $scope.$on('dataloaded', function () {
-                    $timeout(function () { // You might need this timeout to be sure its run after DOM render.
-                     alert('hello!');
-                 }, 0, false);
-                })
-        }
-    };
-}]);
+// sbhub.directive('shorten', ['$timeout', function ($timeout) {
+//     return {
+//         link: function ($scope, element, attrs) {
+//             $scope.$on('dataloaded', function () {
+//                     $timeout(function () { // You might need this timeout to be sure its run after DOM render.
+//                      alert('hello!');
+//                  }, 0, false);
+//                 })
+//         }
+//     };
+// }]);
