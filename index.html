@@ -83,25 +83,25 @@
 
            <a id="form-advanced-label" data-toggle="collapse" data-target="#form-advanced-options">
             <span>ADVANCED</span>
-            <button id="advanced-toggle" type="button" class="btn">+</button>
+            <button id="advanced-toggle" type="button" >+</button>
            </a>
 
         <div id="form-advanced-options" class="collapse">
 
             <div class="checkbox">
-              <label class="filter-text">
+              <label json>
                 <input id="show_closed" name="show_closed" type="checkbox" /> Show closed listings
             </label>
         </div>
 
         <div id="opps-form-src" class="checkbox form-group-more">
-          <label class="filter-text">
+          <label json>
             <input id="show_noncompeted" name="show_noncompeted" type="checkbox" /> Show non-competed listings (sole source)
         </label>
     </div>
 
     <div id="opps-form-src">
-      <label for="data_source" class="filter-text">Data Source:</label>
+      <label for="data_source" json>Data Source:</label>
       <select id="data_source" name="data_source" type="search" class="form-control">
         <option value="">All</option>
         <option value="FBO">FedBizOpps (fbo.gov)</option>
@@ -116,9 +116,38 @@
      </p>
      </form>
  </div>
+
  <div id="opps-found" class="col-md-9">
-    <ul>
-        <li ng-repeat="opp in opps.docs"><a href={{opp.listing_url}} target="_blank">{{ opp.title }}</a></li>
+     <div class="row">{{ opps.numFound }} results found.</div>
+
+        <ul class="pagination pagination-sm">
+      <li><a href="#">&laquo;</a></li>
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li><a href="#">&raquo;</a></li>
+    </ul>
+            <div class="panel panel-primary" ng-repeat="opp in opps.docs">
+                
+                <div class="panel-heading">
+                    {{ opp.title }}
+                </div>
+                <div class="panel-body">
+                    <a href={{opp.listing_url}} target="_blank"> 
+                        {{ opp.description }}
+                    </a>
+                </div>
+            </div>
+        <ul class="pagination pagination-sm">
+      <li><a href="#">&laquo;</a></li>
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li><a href="#">&raquo;</a></li>
     </ul>
 </div>
 </div>
@@ -136,12 +165,8 @@
 
 <!-- ==== TEAM MEMBERS ==== -->
 <div class="container" id="team" name="team">
-    <br>
-    <div class="row white centered">
-        <h1 class="centered">Meet Our Team</h1>
-        <hr>
-        <br>
-        <br>
+    <br> <div class="row white centered">
+        <h1 class="centered">Meet Our Team</h1> <hr> <br> <br>
         <div class="col-lg-6 centered">
             <img class="img" src="assets/img/team/wbi_logo.png" height="120px" width="120px" alt="">
             <br>
