@@ -120,14 +120,14 @@
  <div id="opps-found" class="col-md-9">
    <p> {{ opps.numFound }} results </p>
 
-  <div class="panel panel-info" ng-repeat="opp in opps.docs">
+  <div class="panel panel-info" ng-repeat="opp in opps.docs" shorten>
 
     <div class="panel-heading">
             <a href={{opp.listing_url}} target="_blank" class="text-danger">
                <b>{{ opp.title }}</b>
             </a>
     </div>
-    <div class="panel-body" shorten>
+    <div class="panel-body shorten">
 
             {{ opp.description }}
 
