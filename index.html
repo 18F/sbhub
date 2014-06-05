@@ -77,48 +77,45 @@
 <div class="container" id="find" name="find" ng-controller="oppsCtrl">
     <h1 class="centered">Find Opportunities</h1>
     <hr>
-    <div class="col-md-3" >
+    <div id="sidebar" class="col-sm-3 col-md-3" >
         <form id="opps-form" novalidate role="form" class="form-inline">
             <div id="form-search-grp" class="form-group">
-            <label class="sr-only" for="q">Search</label>
-            <input name="q" id="q" type="text" class="form-control search-query" ng-model="filter.q" placeholder="Search...">
-        </div>
+                <label class="sr-only" for="q">Search</label>
+                <input name="q" id="q" type="text" class="form-control search-query" ng-model="filter.q" placeholder="Search..." autocomplete="off" >
+                <button class="btn-primary" ng-click="getOpps(filter)"><span class="glyphicon glyphicon-search"></span></button>
+            </div>
 
-         <div class="form-group"> 
-            <a id="form-advanced-label" data-toggle="collapse" data-target="#form-advanced-options">
-                <small>ADVANCED</small>
-                <button id="advanced-toggle" type="button" >+</button>
-            </a>
-        </div>
+            <div class="form-group"> 
+                <a id="form-advanced-label" data-toggle="collapse" data-target="#form-advanced-options">
+                    <label for="advanced-toggle">ADVANCED</label>
+                    <button id="advanced-toggle" type="button" >+</button>
+                </a>
+            </div>
 
+            <div id="form-advanced-options" class="collapse">
 
-        <div id="form-advanced-options" class="collapse">
+                <div class="checkbox">
+                    <label>
+                    <input id="show_closed" name="show_closed" type="checkbox" /> Show closed listings
+                </label>
+            </div>
 
-            <div class="checkbox">
-              <label json>
-                <input id="show_closed" name="show_closed" type="checkbox" /> Show closed listings
+            <div id="opps-form-src" class="checkbox form-group-more">
+              <label>
+                <input id="show_noncompeted" name="show_noncompeted" type="checkbox" /> Show non-competed listings (sole source)
             </label>
         </div>
 
-        <div id="opps-form-src" class="checkbox form-group-more">
-          <label json>
-            <input id="show_noncompeted" name="show_noncompeted" type="checkbox" /> Show non-competed listings (sole source)
-        </label>
+        <div id="opps-form-src">
+          <label for="data_source">Data Source:</label>
+          <select id="data_source" name="data_source" type="search" class="form-control">
+            <option value="">All</option>
+            <option value="FBO">FedBizOpps (fbo.gov)</option>
+            <option value="grants.gov">grants.gov</option>
+        </select>
+
     </div>
 
-    <div id="opps-form-src">
-      <label for="data_source" json>Data Source:</label>
-      <select id="data_source" name="data_source" type="search" class="form-control">
-        <option value="">All</option>
-        <option value="FBO">FedBizOpps (fbo.gov)</option>
-        <option value="grants.gov">grants.gov</option>
-    </select>
-
-</div>
-
-</div>
-<div id="form-submit">
-   <button ng-click="getOpps(filter)">Search</button>
 </div>
 </form>
 </div>
