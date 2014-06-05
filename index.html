@@ -131,7 +131,6 @@
     </div>
     <pagination total-items="opps.numFound" ng-model="currentPage" ng-change="pageChanged()" max-size="5"></pagination>
   <div class="panel panel-info" ng-repeat="opp in opps.docs" shorten>
-
     <div class="panel-heading">
             <a href={{opp.listing_url}} target="_blank" class="text-danger">
                <b>{{ opp.title }}</b>

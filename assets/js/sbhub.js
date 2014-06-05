@@ -18,15 +18,18 @@ sbhub.controller('oppsCtrl', function ($scope, $http, $resource, $timeout){
     };
 
   $scope.pageChanged = function() {
+    console.log("page: "+$scope.currentPage);
     $scope.filter = $scope.filter || {};
-    $scope.filter['start'] = 10 * $scope.currentPage-1;
+    $scope.filter['start'] = 10 * ($scope.currentPage-1);
+    console.log('start: '+$scope.filter.start);
     $scope.getOpps($scope.filter);
   };
 
   $scope.filterChanged = function(filter){
+    console.log("page: "+$scope.currentPage);
     $scope.currentPage = 1;
     $scope.filter = $scope.filter || {};
-    $scope.filter['start'] = 1;
+    $scope.filter['start'] = 0;
     $scope.getOpps($scope.filter); 
   };
 
