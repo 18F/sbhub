@@ -78,13 +78,19 @@
     <h1 class="centered">Find Opportunities</h1>
     <hr>
     <div class="col-md-3" >
-        <form id="opps-form" novalidate >
-         <label for="q">Search:</label> <input name="q" type="text" class="input-medium search-query" ng-model="filter.q" placeholder="e.g. software">
+        <form id="opps-form" novalidate role="form" class="form-inline">
+            <div id="form-search-grp" class="form-group">
+            <label class="sr-only" for="q">Search</label>
+            <input name="q" id="q" type="text" class="form-control search-query" ng-model="filter.q" placeholder="Search...">
+        </div>
 
-         <a id="form-advanced-label" data-toggle="collapse" data-target="#form-advanced-options">
-            <span>ADVANCED</span>
-            <button id="advanced-toggle" type="button" >+</button>
-        </a>
+         <div class="form-group"> 
+            <a id="form-advanced-label" data-toggle="collapse" data-target="#form-advanced-options">
+                <small>ADVANCED</small>
+                <button id="advanced-toggle" type="button" >+</button>
+            </a>
+        </div>
+
 
         <div id="form-advanced-options" class="collapse">
 
@@ -111,9 +117,9 @@
 </div>
 
 </div>
-<p>
+<div id="form-submit">
    <button ng-click="getOpps(filter)">Search</button>
-</p>
+</div>
 </form>
 </div>
 

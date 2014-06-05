@@ -559,3 +559,11 @@ div.beta-small h2 {
     margin-left: 20px;
     margin-top: 10px;
 }
+
+#form-search-grp {
+    margin-bottom: 20px;
+}
+
+#form-submit {
+    margin-top: 20px;
+}
