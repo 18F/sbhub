@@ -138,16 +138,7 @@
 
     </div>
 </div>   
-<div id="pagination-box" class="col-md-offset-4">
-    <ul class="pagination">
-      <li><a href="#">&laquo;</a></li>
-      <li><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li><a href="#">&raquo;</a></li>
-  </ul>
+    <pagination total-items="opps.numFound" ng-model="currentPage" ng-change="pageChanged()" max-size="5"></pagination>
 </div id="pagination-box">
 </div id="opps-found">
 </div id="find">
