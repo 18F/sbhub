@@ -3,10 +3,11 @@ var sbhub = angular.module('sbhub', ['ngResource', 'ui.bootstrap']);
 sbhub.controller('oppsCtrl', function ($scope, $http, $resource, $timeout){
     $http.defaults.useXDomain = true;
     var Opp = $resource('http://api.data.gov/gsa/fbopen/v0/opps', {'api_key': '8l3xbEmsQMq7AG7mXoSy3IuJAqehmWGRC754Otx7'});
+    $scope.currentPage = 1;
 
     $scope.getOpps = function(filter){
-        filter = filter || {};
-        Opp.get(filter, function(data){
+        $scope.filter = filter || {};
+        Opp.get($scope.filter, function(data){
             $scope.opps = data;
             $timeout(function(){
                 $scope.$broadcast('dataloaded');
@@ -16,12 +17,10 @@ sbhub.controller('oppsCtrl', function ($scope, $http, $resource, $timeout){
         });
     };
 
-  $scope.totalItems = 64;
-  $scope.currentPage = 4;
-
   $scope.pageChanged = function() {
-    console.log('Page changed to: ' + $scope.currentPage);
-    $scope.getOpps({'start':10 * $scope.currentPage-1});
+    $scope.filter = $scope.filter || {};
+    $scope.filter['start'] = 10 * $scope.currentPage-1;
+    $scope.getOpps($scope.filter);
   };
 
 
