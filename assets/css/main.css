@@ -563,3 +563,6 @@ div.beta-small h2 {
 #form-search-grp {
     margin-bottom: 20px;
 }
+
+/** Styling for angular UI, see http://angular-ui.github.io/bootstrap/ */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

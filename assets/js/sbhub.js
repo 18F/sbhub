@@ -1,4 +1,4 @@
-var sbhub = angular.module('sbhub', ['ngResource']);
+var sbhub = angular.module('sbhub', ['ngResource', 'ui.bootstrap']);
 
 sbhub.controller('oppsCtrl', function ($scope, $http, $resource, $timeout){
     $http.defaults.useXDomain = true;
@@ -16,8 +16,17 @@ sbhub.controller('oppsCtrl', function ($scope, $http, $resource, $timeout){
         });
     };
 
-    //On page load, get opportunities with no filtering.
-    $scope.getOpps();
+  $scope.totalItems = 64;
+  $scope.currentPage = 4;
+
+  $scope.pageChanged = function() {
+    console.log('Page changed to: ' + $scope.currentPage);
+    $scope.getOpps({'start':10 * $scope.currentPage-1});
+  };
+
+
+  //On page load, get opportunities with no filtering.
+  $scope.getOpps();
 
 });
 

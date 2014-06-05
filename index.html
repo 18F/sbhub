@@ -124,7 +124,7 @@
     <div id="result-count">
    <p> {{ opps.numFound }} Search Results</p>
     </div>
-
+    <pagination total-items="opps.numFound" ng-model="currentPage" ng-change="pageChanged()" max-size="5"></pagination>
   <div class="panel panel-info" ng-repeat="opp in opps.docs" shorten>
 
     <div class="panel-heading">
