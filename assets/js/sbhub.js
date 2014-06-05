@@ -23,6 +23,13 @@ sbhub.controller('oppsCtrl', function ($scope, $http, $resource, $timeout){
     $scope.getOpps($scope.filter);
   };
 
+  $scope.filterChanged = function(filter){
+    $scope.currentPage = 1;
+    $scope.filter = $scope.filter || {};
+    $scope.filter['start'] = 1;
+    $scope.getOpps($scope.filter); 
+  };
+
 
   //On page load, get opportunities with no filtering.
   $scope.getOpps();

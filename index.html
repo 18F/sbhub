@@ -96,19 +96,19 @@
 
                 <div class="checkbox">
                     <label>
-                    <input id="show_closed" name="show_closed" type="checkbox" ng-model="filter.show_closed" ng-change="getOpps(filter)"/> Show closed listings
+                    <input id="show_closed" name="show_closed" type="checkbox" ng-model="filter.show_closed" ng-change="filterChanged(filter)"/> Show closed listings
                 </label>
             </div>
 
             <div id="opps-form-src" class="checkbox form-group-more">
               <label>
-                <input id="show_noncompeted" name="show_noncompeted" type="checkbox" ng-model="filter.show_noncompeted" ng-change="getOpps(filter)" /> Show non-competed listings (sole source)
+                <input id="show_noncompeted" name="show_noncompeted" type="checkbox" ng-model="filter.show_noncompeted" ng-change="filterChanged(filter)" /> Show non-competed listings (sole source)
             </label>
         </div>
 
         <div id="opps-form-src">
           <label for="data_source">Data Source:</label>
-          <select id="data_source" name="data_source" type="search" class="form-control" ng-model="filter.data_source" ng-change="getOpps(filter)>
+          <select id="data_source" name="data_source" type="search" class="form-control" ng-model="filter.data_source" ng-change="filterChanged(filter)">
             <option value="">All</option>
             <option value="FBO">FedBizOpps (fbo.gov)</option>
             <option value="grants.gov">grants.gov</option>
